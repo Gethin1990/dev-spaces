@@ -20,6 +20,8 @@ spec:
         app: {{ template "webfrontend.name" . }}
         draft: {{ default "draft-app" .Values.draft }}
         release: {{ .Release.Name }}
+      annotations:
+        buildID: {{ .Values.buildID }}
     spec:
       containers:
         - name: {{ .Chart.Name }}
