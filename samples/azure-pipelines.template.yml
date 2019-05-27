@@ -1,6 +1,4 @@
 # define two variables 'dockerId' and 'dockerPassword' in the build pipeline in UI for your ACR credentials
-parameters:
-  language: 'dotnetcore' # Overridden in each language's pipeline file
 jobs:
 - job: Build_webfrontend
   pool:
@@ -13,11 +11,11 @@ jobs:
   - script: |
       set -e
       set -x
-      docker build -f samples/${{ parameters.language }}/getting-started/webfrontend/Dockerfile -t $(imageRepo):$(imageTag) samples/${{ parameters.language }}/getting-started/webfrontend/
+      docker build -f samples/dotnetcore/getting-started/webfrontend/Dockerfile -t $(imageRepo):$(imageTag) samples/dotnetcore/getting-started/webfrontend/
       docker login -u $(dockerId) -p $pswd $(acrUrl)
       docker push $(imageRepo):$(imageTag)
       docker logout $(acrUrl)
-      cp -r samples/${{ parameters.language }}/getting-started/webfrontend/charts/webfrontend $(Build.ArtifactStagingDirectory)/chart
+      cp -r samples/dotnetcore/getting-started/webfrontend/charts/webfrontend $(Build.ArtifactStagingDirectory)/chart
       mkdir -p $(Build.ArtifactStagingDirectory)/image
       echo '$(imageRepo)' > $(Build.ArtifactStagingDirectory)/image/repo.txt
       echo '$(imageTag)' > $(Build.ArtifactStagingDirectory)/image/tag.txt
@@ -38,11 +36,11 @@ jobs:
   - script: |
       set -e
       set -x
-      docker build -f samples/${{ parameters.language }}/getting-started/mywebapi/Dockerfile -t $(imageRepo):$(imageTag) samples/${{ parameters.language }}/getting-started/mywebapi/
+      docker build -f samples/dotnetcore/getting-started/mywebapi/Dockerfile -t $(imageRepo):$(imageTag) samples/dotnetcore/getting-started/mywebapi/
       docker login -u $(dockerId) -p $pswd $(acrUrl)
       docker push $(imageRepo):$(imageTag)
       docker logout $(acrUrl)
-      cp -r samples/${{ parameters.language }}/getting-started/mywebapi/charts/mywebapi $(Build.ArtifactStagingDirectory)/chart
+      cp -r samples/dotnetcore/getting-started/mywebapi/charts/mywebapi $(Build.ArtifactStagingDirectory)/chart
       mkdir -p $(Build.ArtifactStagingDirectory)/image
       echo '$(imageRepo)' > $(Build.ArtifactStagingDirectory)/image/repo.txt
       echo '$(imageTag)' > $(Build.ArtifactStagingDirectory)/image/tag.txt
